@@ -50,6 +50,8 @@ permissions:
 jobs:
   crawl:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     timeout-minutes: 15
 
     steps:
@@ -173,5 +175,4 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git add .
-          git commit -m "Update news report" || exit 0
-          git push
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Update news report $(date +'%Y-%m-%d %H:%M')" && git push)
